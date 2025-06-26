@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>溶ける詩</title>
+  <style>
+    body {
+      margin: 0;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: "Hiragino Mincho ProN", serif;
+    }
+    .poem-container {
+      position: absolute;
+      opacity: 0;
+      white-space: pre-wrap;
+      text-align: center;
+      transition: opacity 3s ease;
+    }
+    .visible {
+      opacity: 1;
+    }
+    #poem1 { color: #002B5C; }  /* 濃い青 */
+    #poem2 { color: #4FC3F7; }  /* 水色 */
+    #poem3 { color: #E0F7FA; }  /* 水色と白の中間 */
+    #poem4 { color: white; }    /* 完全白 */
+  </style>
+</head>
+<body>
+  <div id="poem1" class="poem-container">
+14時からの「溶ける会」にあなたをご招待します
+参加される方へ
+時間になったら、周囲の熱を取り込んで、
+あなたの体を頭から胸、腕、足、つま先の順に溶かし、
+あなたの立つ地面をゆるめ、熱を外へ外へと伝播させて、
+ついにこのブックマーケット全体を溶解させ、
+なお有り余る熱をもってこの招待状を溶かしてください。
+心は溶かしきらないように。
+  </div>
+  <div id="poem2" class="poem-container">
+　　　　　　　溶ける会　　あなた　　　　　　　 
+　　　　　　へ
+　　間　　　　　　　　　　を　　　　　　 
+あなたの　　　　　胸　　　　　　　　　　に　　　、
+あ　たの　　　　　　　　　熱を　　　　　　　　　　　
+つ　　　　　　　　　　　　　　　　　　　　　
+　　　　　　　て　　　　　　　　　　　　　　　 
+心　　　　　　　い　　に。 
+  </div>
+  <div id="poem3" class="poem-container">
+　　　　　　　　溶　　　　　　　た　　　　　　　 
+　　　　　　　
+　　　　　　　　　　　　　　　　　　　　
+　　　　　　　　　　　　　　　　　　　　　　　　　
+あ　　　　　　　　　　　　　　　　　　　　　　　　　
+　　　　　　　　　　　　　　　　　　　　　　
+　　　　　　　　　　　　　　　　　　　　　　　　　
+　　　　　　　　　い　　　　  
+  </div>
+  <div id="poem4" class="poem-container">
+  
+  </div>
+
+  <script>
+    const poems = [
+      document.getElementById("poem1"),
+      document.getElementById("poem2"),
+      document.getElementById("poem3"),
+      document.getElementById("poem4")
+    ];
+
+    // 各ステージの切り替え時刻（日本時間）
+    const stageTimes = [
+      new Date("2025-06-28T14:00:00+09:00"), // → poem2
+      new Date("2025-06-28T14:05:00+09:00"), // → poem3
+      new Date("2025-06-28T16:00:00+09:00")  // → poem4
+    ];
+
+    function getCurrentStageIndex(now) {
+      if (now < stageTimes[0]) return 0;
+      if (now < stageTimes[1]) return 1;
+      if (now < stageTimes[2]) return 2;
+      return 3;
+    }
+
+    let currentStage = -1;
+
+    function updateStage() {
+      const now = new Date();
+      const newStage = getCurrentStageIndex(now);
+
+      if (newStage !== currentStage) {
+        if (currentStage !== -1) {
+          poems[currentStage].classList.remove("visible");
+        }
+        poems[newStage].classList.add("visible");
+        currentStage = newStage;
+      }
+    }
+
+    // 初期表示
+    updateStage();
+
+    // 10秒ごとにチェックして自動遷移
+    setInterval(updateStage, 10000);
+  </script>
+</body>
+</html>
